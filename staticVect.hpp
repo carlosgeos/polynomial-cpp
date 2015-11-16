@@ -24,16 +24,7 @@ public:
   inline const TYPE& operator[] (std::ptrdiff_t) const override;
   inline TYPE& operator[] (std::ptrdiff_t) override;
   inline IVect<TYPE, SIZE>& operator+=(const StaticVector<TYPE, SIZE>&);
-
-  StaticVector<TYPE, SIZE>& operator=(const StaticVector<TYPE, SIZE> &rhs)
-  {
-    // Check for self-assignment!
-    if (this == &rhs)
-      return *this;
-
-    return *this;
-  }
-
+  inline StaticVector <TYPE, SIZE>& operator=(const StaticVector<TYPE, SIZE>&);
 
 };
 
@@ -49,6 +40,20 @@ TYPE& StaticVector<TYPE, SIZE>::operator[] (std::ptrdiff_t i) {
   if (std::size_t(i) >= SIZE)
     throw std::out_of_range("Vector index out of range");
   return _array[i];
+}
+
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator=(const StaticVector<TYPE, SIZE> &rhs)
+{
+  // Check for self-assignment!
+  if (this == &rhs)
+    return *this;
+  for (size_t i = 0; i < SIZE; i++) {
+    std::cout << "esaaa" << "\n";
+    this -> _array[i] = rhs._array[i];
+  }
+
+  return *this;
 }
 
 template<typename TYPE, size_t SIZE>
@@ -73,6 +78,7 @@ std::ostream& operator<< (std::ostream& out, const StaticVector<TYPE, SIZE>& v) 
   out << "]\n";
   return out;
 }
+
 
 
 #endif /* STATICVECT_H */

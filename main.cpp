@@ -19,13 +19,11 @@ int main() {
   sv[1] = 4;
   sv[0] = 10;
 
-  sv2[3] = 7;
-  sv2[2] = 1;
-  sv2[1] = 4;
-  sv2[0] = 10;
-  StaticVector<int, 4> sv3;
+  sv2[3] = 1;
+  sv2[2] = 2;
+  sv2[1] = 3;
+  sv2[0] = 4;
 
-  sv += sv2;
   std::cout << sv << "\n";
   std::cout << sv2 << "\n";
   std::cout << "--------------------------" << "\n";

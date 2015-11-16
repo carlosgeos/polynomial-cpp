@@ -27,8 +27,9 @@ public:
   virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
   virtual TYPE& operator[] (std::ptrdiff_t) = 0;
   //virtual IVect<TYPE>& operator+=(const IVect &) = 0;
-  virtual IVect<TYPE, SIZE>& operator+=(const IVect<TYPE, SIZE> &) = 0;
-
+  //virtual IVect<TYPE, SIZE>& operator+=(const IVect<TYPE, SIZE> &) = 0;
+  //  virtual IVect<TYPE, SIZE> operator+(const IVect<TYPE, SIZE>&);
+  //virtual IVect<TYPE, SIZE> operator=(const IVect<TYPE, SIZE>&);
 };
 
 // template <typename TYPE>
