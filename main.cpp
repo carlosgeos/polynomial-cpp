@@ -24,8 +24,6 @@ int main() {
   sv2[1] = 3;
   sv2[0] = 4;
 
-  std::cout << sv << "\n";
-  std::cout << sv2 << "\n";
   std::cout << "--------------------------" << "\n";
   std::cout << "todo bien" << "\n";
 

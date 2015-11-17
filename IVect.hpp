@@ -13,22 +13,17 @@ char const *super[] = {"\u2070", "\u00B9",
 		       "\u2078", "\u2079"};
 
 
+template<typename VectType, typename ElemType>
 class IVect
 {
 public:
-  virtual ~IVect() = default;
-
-  template<typename T, size_t dim>
-  friend std::istream& operator>>(std::istream&, const IVect&);
-  virtual void printVect(std::ostream&) const =0;
-  //virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
-  //virtual TYPE& operator[] (std::ptrdiff_t) = 0;
+  virtual const ElemType& operator[] (std::ptrdiff_t) const = 0;
+  virtual ElemType& operator[] (std::ptrdiff_t) = 0;
   //virtual IVect<TYPE>& operator+=(const IVect &) = 0;
   //virtual IVect<TYPE, SIZE>& operator+=(const IVect<TYPE, SIZE> &) = 0;
-  virtual IVect& operator+(const IVect &other) =0;
-  virtual void getArray(size_t i);
+  virtual VectType operator+(const VectType &other) = 0;
   //  virtual IVect<TYPE, SIZE> operator+(const IVect<TYPE, SIZE>&);
-  //virtual IVect<TYPE, SIZE> operator=(const IVect<TYPE, SIZE>&);
+  virtual ~IVect() = default;
 };
 
 // template <typename TYPE>
@@ -60,9 +55,9 @@ public:
 //   return out;
 // }
 
-std::ostream& operator<< (std::ostream& os, const IVect& v) {
-  v.printVect(os);
-  return os;
-}
+// std::ostream& operator<< (std::ostream& os, const IVect& v) {
+//   v.printVect(os);
+//   return os;
+// }
 
 #endif /* IVECT_H */
