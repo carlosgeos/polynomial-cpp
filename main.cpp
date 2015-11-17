@@ -29,6 +29,8 @@ int main() {
   std::cout << "--------------------------" << "\n";
   std::cout << "todo bien" << "\n";
 
+  std::cout << "asdf asdf" << "\n";
+
   int esa[5] = {1,2,3,4,5};
   int eso[5] = {10,9,8,7,6};
 

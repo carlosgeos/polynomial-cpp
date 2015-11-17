@@ -28,6 +28,16 @@ public:
     }
     os << "]\n";
   };
+
+  virtual IVect& operator+(const IVect &other) override {
+    StaticVector<TYPE, SIZE> result = *this;
+
+    for (size_t i = 0; i < SIZE; i++) {
+      this -> _array[i] += other.getArray(i);
+    }
+
+    return result;
+  }
   inline const TYPE& operator[] (std::ptrdiff_t) const;
   inline TYPE& operator[] (std::ptrdiff_t);
   //inline IVect<TYPE, SIZE>& operator+=(const StaticVector<TYPE, SIZE>&);

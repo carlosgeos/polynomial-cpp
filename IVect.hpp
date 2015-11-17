@@ -25,6 +25,8 @@ public:
   //virtual TYPE& operator[] (std::ptrdiff_t) = 0;
   //virtual IVect<TYPE>& operator+=(const IVect &) = 0;
   //virtual IVect<TYPE, SIZE>& operator+=(const IVect<TYPE, SIZE> &) = 0;
+  virtual IVect& operator+(const IVect &other) =0;
+  virtual void getArray(size_t i);
   //  virtual IVect<TYPE, SIZE> operator+(const IVect<TYPE, SIZE>&);
   //virtual IVect<TYPE, SIZE> operator=(const IVect<TYPE, SIZE>&);
 };
