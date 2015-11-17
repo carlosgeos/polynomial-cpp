@@ -28,5 +28,11 @@ int main() {
   std::cout << sv2 << "\n";
   std::cout << "--------------------------" << "\n";
   std::cout << "todo bien" << "\n";
+
+  int esa[5] = {1,2,3,4,5};
+  int eso[5] = {10,9,8,7,6};
+
+  int ese[5];
+
   return 0;
 }
