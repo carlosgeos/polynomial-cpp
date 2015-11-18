@@ -6,7 +6,6 @@
 
 #include "IVect.hpp"
 
-
 // size_t is used since that is the result type of sizeof expression
 // and is preferred for counting in arrays etc.
 template<typename TYPE, size_t SIZE>
@@ -18,11 +17,23 @@ public:
   StaticVector() = default;
   virtual ~StaticVector() = default;
   virtual StaticVector<TYPE, SIZE> operator+(const StaticVector<TYPE, SIZE> &other) override;
-  //inline StaticVector <TYPE, SIZE>& operator=(const StaticVector<TYPE, SIZE>&);
+  virtual StaticVector<TYPE, SIZE> operator-(const StaticVector<TYPE, SIZE> &other) override;
+  void printVector(std::ostream& os) const override;
   const TYPE& operator[](std::ptrdiff_t) const override;
   TYPE& operator[](std::ptrdiff_t) override;
 
 };
+
+template<typename TYPE, size_t SIZE>
+void StaticVector<TYPE, SIZE>::printVector(std::ostream& os) const {
+  os << "Vector :" << "\n[ ";
+  // i --> 0 to be read as ((i--) > 0)
+  for (std::size_t i = SIZE; i --> 0;) {
+    os << this -> _array[i] << " " ;
+  }
+  os << "]\n";
+
+}
 
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+(const StaticVector<TYPE, SIZE> &other)
@@ -34,6 +45,19 @@ StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+(const StaticVector<
 
   return final;
 }
+
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-(const StaticVector<TYPE, SIZE> &other)
+{
+  StaticVector<TYPE, SIZE> final;
+  for (size_t i = 0; i < SIZE; i++) {
+    final._array[i] = this -> _array[i] - other._array[i];
+  }
+
+  return final;
+}
+
+
 
 template <typename TYPE, std::size_t SIZE>
 const TYPE& StaticVector<TYPE, SIZE>::operator[] (std::ptrdiff_t i) const {
@@ -62,19 +86,5 @@ TYPE& StaticVector<TYPE, SIZE>::operator[] (std::ptrdiff_t i) {
 
 //   return *this;
 // }
-
-// template<typename TYPE, size_t SIZE>
-// IVect<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator+=(const StaticVector<TYPE, SIZE> &other)
-// {
-//   for (size_t i = 0; i < SIZE; i++) {
-//     this -> _array[i] += other._array[i];
-//   }
-
-//   return *this;
-// }
-
-//-------------------
-
-
 
 #endif /* STATICVECT_H */

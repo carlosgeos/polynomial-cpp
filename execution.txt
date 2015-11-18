@@ -1,3 +1,16 @@
+Vector :
+[ 8 3 7 14 ]
+
+Vector :
+[ 1 2 3 4 ]
+
+SV es:
+Vector :
+[ 7 1 4 10 ]
+
+SV2 es:
+Vector :
+[ 1 2 3 4 ]
+
 --------------------------
 todo bien
-asdf asdf

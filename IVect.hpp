@@ -19,45 +19,16 @@ class IVect
 public:
   virtual const ElemType& operator[] (std::ptrdiff_t) const = 0;
   virtual ElemType& operator[] (std::ptrdiff_t) = 0;
-  //virtual IVect<TYPE>& operator+=(const IVect &) = 0;
-  //virtual IVect<TYPE, SIZE>& operator+=(const IVect<TYPE, SIZE> &) = 0;
   virtual VectType operator+(const VectType &other) = 0;
-  //  virtual IVect<TYPE, SIZE> operator+(const IVect<TYPE, SIZE>&);
+  virtual VectType operator-(const VectType &other) = 0;
+  friend std::ostream& operator<<(std::ostream& os, const VectType& v) {
+    // Only valid for the type we are instantiating.
+    v.printVector(os);
+    return os;
+  };
+  virtual void printVector(std::ostream& os) const =0;
   virtual ~IVect() = default;
+
 };
-
-// template <typename TYPE>
-// const TYPE& IVect<TYPE>::operator[] (std::ptrdiff_t i) const {
-//   if (std::size_t(i) >= _size)
-//     throw std::out_of_range("DynamicVector : Index out of range");
-//   return _val[i];
-// }
-
-// template <typename TYPE>
-// TYPE& IVect<TYPE>::operator[] (std::ptrdiff_t i) {
-//   if (std::size_t(i) >= _size)
-//     throw std::out_of_range("DynamicVector : Index out of range");
-//   return _val[i];
-// }
-
-
-
-
-// template<typename TYPE, size_t SIZE = 0>
-// std::ostream& operator<< (std::ostream& out, const IVect<TYPE, SIZE>& v) {
-//   out << "Vector :" << "\n[ ";
-//   // i --> 0 to be read as ((i--) > 0)
-
-//   for (std::size_t i = SIZE; i --> 0;) {
-//     out << v._array[i] << " " ;
-//   }
-//   out << "]\n";
-//   return out;
-// }
-
-// std::ostream& operator<< (std::ostream& os, const IVect& v) {
-//   v.printVect(os);
-//   return os;
-// }
 
 #endif /* IVECT_H */
