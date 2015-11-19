@@ -10,6 +10,7 @@
 // and is preferred for counting in arrays etc.
 template<typename TYPE, size_t SIZE>
 class StaticVector : public IVect<StaticVector<TYPE, SIZE>, TYPE>
+// CRTP - Curiously Repeating Template Pattern
 {
   // Array declaration and INITIALIZATION
   TYPE _array[SIZE] = {};
@@ -18,6 +19,7 @@ public:
   virtual ~StaticVector() = default;
   virtual StaticVector<TYPE, SIZE> operator+(const StaticVector<TYPE, SIZE> &other) override;
   virtual StaticVector<TYPE, SIZE> operator-(const StaticVector<TYPE, SIZE> &other) override;
+  virtual StaticVector<TYPE, SIZE> operator-() override;
   void printVector(std::ostream& os) const override;
   const TYPE& operator[](std::ptrdiff_t) const override;
   TYPE& operator[](std::ptrdiff_t) override;
@@ -56,6 +58,18 @@ StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-(const StaticVector<
 
   return final;
 }
+
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-()
+{
+  StaticVector<TYPE, SIZE> final;
+  for (size_t i = 0; i < SIZE; i++) {
+    final._array[i] = -(this -> _array[i]);
+  }
+
+  return final;
+}
+
 
 
 

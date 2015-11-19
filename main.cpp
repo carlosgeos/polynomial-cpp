@@ -32,8 +32,8 @@ int main() {
   // sv3[0] = 4;
 
   sv3 = sv + sv2;
-
-  sv4 = sv3 - sv;
+  sv4 = sv + sv2;
+  sv4 = -sv4;
 
   std::cout << sv3 << "\n";
   std::cout << sv4 << "\n";

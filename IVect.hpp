@@ -21,6 +21,7 @@ public:
   virtual ElemType& operator[] (std::ptrdiff_t) = 0;
   virtual VectType operator+(const VectType &other) = 0;
   virtual VectType operator-(const VectType &other) = 0;
+  virtual VectType operator-() = 0;
   friend std::ostream& operator<<(std::ostream& os, const VectType& v) {
     // Only valid for the type we are instantiating.
     v.printVector(os);
