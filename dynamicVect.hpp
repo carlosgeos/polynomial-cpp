@@ -6,10 +6,10 @@
 //#include <exception>
 //#include <stdexcept>   // standard errors
 
-#include "generalVect.hpp"
+#include "IVect.hpp"
 
 template <typename TYPE>
-class DynamicVector final : GeneralVector {     // final car destructeur non vituel
+class DynamicVector final : IVect {     // final car destructeur non vituel
   template <typename T>
     friend std::ostream& operator<< (std::ostream&, const DynamicVector<T>&);
   std::size_t _size;
