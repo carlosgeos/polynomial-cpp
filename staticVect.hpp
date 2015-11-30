@@ -14,7 +14,6 @@ public:
   StaticVector() = default;
   virtual ~StaticVector() = default;
   virtual StaticVector operator+(const StaticVector &other) override;
-  //virtual StaticVector operator+(const StaticVector &other) override;
   virtual StaticVector operator+() override;
   virtual StaticVector operator-(const StaticVector &other) override;
   virtual StaticVector operator-() override;
@@ -28,9 +27,9 @@ public:
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+(const StaticVector<TYPE, SIZE> &other)
 {
-  StaticVector<TYPE, SIZE> final;
+  StaticVector<TYPE, SIZE> final = *this;
   for (size_t i = 0; i < SIZE; i++) {
-    final._array[i] = this -> _array[i] + other._array[i];
+    final._array[i] += other._array[i];
   }
 
   return final;
@@ -46,9 +45,9 @@ StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+()
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-(const StaticVector<TYPE, SIZE> &other)
 {
-  StaticVector<TYPE, SIZE> final;
+  StaticVector<TYPE, SIZE> final = *this;
   for (size_t i = 0; i < SIZE; i++) {
-    final._array[i] = this -> _array[i] - other._array[i];
+    final._array[i] = _array[i] - other._array[i];
   }
 
   return final;
@@ -57,12 +56,11 @@ StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-(const StaticVector<
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-()
 {
-  StaticVector<TYPE, SIZE> final;
   for (size_t i = 0; i < SIZE; i++) {
-    final._array[i] = -(this -> _array[i]);
+    _array[i] = -(_array[i]);
   }
 
-  return final;
+  return *this;
 }
 
 
@@ -89,7 +87,7 @@ void StaticVector<TYPE, SIZE>::printVector(std::ostream& os) const
   os << "Vector :" << "\n[ ";
   // i --> 0 to be read as ((i--) > 0)
   for (std::size_t i = SIZE; i --> 0;) {
-    os << this -> _array[i] << " " ;
+    os << _array[i] << " " ;
   }
   os << "]\n";
 

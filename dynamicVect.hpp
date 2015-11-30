@@ -2,6 +2,7 @@
 #define DYNAMICVECT_H
 
 #include "IVect.hpp"
+#include "staticVect.hpp"
 
 template <typename TYPE>
 class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
@@ -9,11 +10,14 @@ class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
   TYPE* _val;
  public:
   std::size_t getSize () const {return _size;}
-  explicit DynamicVector(std::size_t size = 0): _size(size), _val(new TYPE[size]) {}
-  DynamicVector (std::size_t, const TYPE&);
+  explicit DynamicVector(std::size_t size = 0): _size(size), _val(new TYPE[size]()) {} // 0-initialized
+  DynamicVector (std::size_t, const TYPE&); // TYPE& elem - initilized
   DynamicVector (const DynamicVector&);
+  //DynamicVector (const StaticVector<TYPE, _size>);
   DynamicVector (DynamicVector&&);
   ~DynamicVector () {delete[] _val;} // non virtual dtor (final class then?)
+
+  std::size_t siz() const {return _size;}
 
   virtual DynamicVector operator+(const DynamicVector&) override;
   virtual DynamicVector operator+() override;

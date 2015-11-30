@@ -15,14 +15,18 @@ int main() {
   DynamicVector<int> dv(5);
 
   dv[3] = 3;
+  dv[0] = 14;
 
-  std::cout << dv << "\n";
+  std::cout << "dv" << dv << "\n";
+
 
   StaticVector<int, 4> sv;
   sv[3] = 7;
   sv[2] = 1;
   sv[1] = 4;
   sv[0] = 10;
+
+  //DynamicVector<int> dv2(sv);
 
   StaticVector<int, 4> sv2;
   sv2[3] = 1;
