@@ -1,35 +1,58 @@
 #ifndef DYNAMICVECT_H
 #define DYNAMICVECT_H
 
-#include <cstddef>     // nullptr_t, ptrdiff_t, size_t
-#include <iostream>    // cin, cout...
-//#include <exception>
-//#include <stdexcept>   // standard errors
-
 #include "IVect.hpp"
 
 template <typename TYPE>
-class DynamicVector final : IVect {     // final car destructeur non vituel
-  template <typename T>
-    friend std::ostream& operator<< (std::ostream&, const DynamicVector<T>&);
+class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
   std::size_t _size;
   TYPE* _val;
  public:
   std::size_t getSize () const {return _size;}
   explicit DynamicVector(std::size_t size = 0): _size(size), _val(new TYPE[size]) {}
-  DynamicVector (std::size_t, const TYPE&);            // constructeur initialisant
-  DynamicVector (const DynamicVector&);                         // constructeur de copie
-  DynamicVector (DynamicVector&&);                              // constructeur de transfert
-  ~DynamicVector () {delete[] _val;}                   // destructeur
+  DynamicVector (std::size_t, const TYPE&);
+  DynamicVector (const DynamicVector&);
+  DynamicVector (DynamicVector&&);
+  ~DynamicVector () {delete[] _val;} // non virtual dtor (final class then?)
 
-  inline const TYPE& operator[] (std::ptrdiff_t) const;
-  inline TYPE& operator[] (std::ptrdiff_t);
+  virtual DynamicVector operator+(const DynamicVector&) override;
+  virtual DynamicVector operator+() override;
+  virtual DynamicVector operator-(const DynamicVector&) override;
+  virtual DynamicVector operator-() override;
+  inline const TYPE& operator[] (std::ptrdiff_t) const override;
+  inline TYPE& operator[] (std::ptrdiff_t) override;
   DynamicVector& operator= (const DynamicVector&);              // opérateur d'assignation
   DynamicVector& operator= (DynamicVector&&);                   // opérateur de transfert
+  virtual void printVector(std::ostream&) const override;
 
 };
 
-//----------------------------------------------------------------------------
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator+(const DynamicVector<TYPE> &other)
+{
+
+  return *this;
+}
+
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator+()
+{
+  return *this;
+}
+
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator-(const DynamicVector<TYPE> &other)
+{
+  return *this;
+}
+
+
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator-()
+{
+  return *this;
+}
+
 
 template <typename TYPE>
 const TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) const {
@@ -83,13 +106,13 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (DynamicVector&& v) {
 
 //----------------------------------------------------------------------------
 
-template <typename TYPE>
-std::ostream& operator<< (std::ostream& out, const DynamicVector<TYPE>& v) {
-  out << v._size << ": [";
-  for (std::size_t i = 0; i < v._size; ++i) out << ' ' << v._val[i];
-  out << " ] "<< std::endl;
-  return out;
-}
+template<typename TYPE>
+void DynamicVector<TYPE>::printVector(std::ostream& os) const {
+  os << "Vector :" << "\n[ ";
+  for (std::size_t i = 0; i < this -> _size; ++i)
+    os << this -> _val[i] << ' ';
+  os << "]\n";
 
+}
 
 #endif /* DYNAMICVECT_H */

@@ -9,9 +9,15 @@
 #include <iostream>
 
 #include "staticVect.hpp"
-//#include "dynamicVect.hpp"
+#include "dynamicVect.hpp"
 
 int main() {
+  DynamicVector<int> dv(5);
+
+  dv[3] = 3;
+
+  std::cout << dv << "\n";
+
   StaticVector<int, 4> sv;
   sv[3] = 7;
   sv[2] = 1;
@@ -48,7 +54,7 @@ int main() {
   sv4 = sv + sv2;
   sv4 = -sv4;
 
-  std::cout << sv << "\n";
+  std::cout << +sv << "\n";
   std::cout << sv2 << "\n";
   std::cout << sv3 << "\n";
   std::cout << sv4 << "\n";

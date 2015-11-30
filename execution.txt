@@ -1,4 +1,7 @@
 Vector :
+[ 0 0 0 3 0 ]
+
+Vector :
 [ 7 1 4 10 ]
 
 Vector :
