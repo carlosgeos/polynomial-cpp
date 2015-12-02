@@ -17,3 +17,6 @@ execute: polynomial.o
 
 listing: listing.tex
 	latexmk -xelatex -output-directory=tex_files $<
+
+uml: class.uml
+	plantuml $< && gthumb class.png&

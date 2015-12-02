@@ -12,7 +12,7 @@ char const *super[] = {"\u2070", "\u00B9",
 		       "\u2076", "\u2077",
 		       "\u2078", "\u2079"};
 
-template<typename VectType, typename ElemType>
+template<typename VectType, typename TYPE>
 class IVect
 {
   friend std::ostream& operator<<(std::ostream& os, const VectType& v) {
@@ -21,8 +21,8 @@ class IVect
   }
   virtual void printVector(std::ostream& os) const =0;
 public:
-  virtual const ElemType& operator[] (std::ptrdiff_t) const = 0;
-  virtual ElemType& operator[] (std::ptrdiff_t) = 0;
+  virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
+  virtual TYPE& operator[] (std::ptrdiff_t) = 0;
   virtual VectType operator+(const VectType &other) = 0;
   virtual VectType operator+() = 0;
   virtual VectType operator-(const VectType &other) = 0;
@@ -31,7 +31,7 @@ public:
 
 };
 
-// template<typename VectType, typename ElemType>
+// template<typename VectType, typename TYPE>
 // std::ostream& operator<<(std::ostream& os, const VectType& v) {
 //   // Only valid for the type we are instantiating.
 //   v.printVector(os);
