@@ -8,14 +8,15 @@ template <typename TYPE>
 class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
   std::size_t _size;
   TYPE* _val;
- public:
+public:
   std::size_t getSize () const {return _size;}
-  explicit DynamicVector(std::size_t size = 0): _size(size), _val(new TYPE[size]()) {} // 0-initialized
+  explicit DynamicVector(std::size_t size = 0): _size(size), _val(new TYPE[size]()) {} // 0-initialized with '()'
   DynamicVector (std::size_t, const TYPE&); // TYPE& elem - initilized
   DynamicVector (const DynamicVector&);
-  //DynamicVector (const StaticVector<TYPE, _size>);
+  template<size_t S>  // Conversion from all sorts of static vectors.
+  explicit DynamicVector (const StaticVector<TYPE, S>&);
   DynamicVector (DynamicVector&&);
-  ~DynamicVector () {delete[] _val;} // non virtual dtor (final class then?)
+  virtual ~DynamicVector () {delete[] _val;}
 
   std::size_t siz() const {return _size;}
 
@@ -32,10 +33,20 @@ class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
 };
 
 template<typename TYPE>
+template<size_t S>
+DynamicVector<TYPE>::DynamicVector(const StaticVector<TYPE, S>& sv) : _size(S), _val(new TYPE[S])
+{
+  for (std::size_t i = 0; i < S; ++i) _val[i] = sv._array[i];
+}
+
+template<typename TYPE>
 DynamicVector<TYPE> DynamicVector<TYPE>::operator+(const DynamicVector<TYPE> &other)
 {
+  DynamicVector<TYPE> result = *this;
+  for (size_t i = 0; i < _size; i++)
+    _val[i] += other._val[i];
 
-  return *this;
+  return result;
 }
 
 template<typename TYPE>
@@ -113,8 +124,8 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (DynamicVector&& v) {
 template<typename TYPE>
 void DynamicVector<TYPE>::printVector(std::ostream& os) const {
   os << "Vector :" << "\n[ ";
-  for (std::size_t i = 0; i < this -> _size; ++i)
-    os << this -> _val[i] << ' ';
+  for (std::size_t i = 0; i < _size; ++i)
+    os << _val[i] << ' ';
   os << "]\n";
 
 }

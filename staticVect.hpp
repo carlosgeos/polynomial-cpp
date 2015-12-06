@@ -9,8 +9,8 @@ template<typename TYPE, size_t SIZE>
 class StaticVector : public IVect<StaticVector<TYPE, SIZE>, TYPE>
 {
   // Array declaration and INITIALIZATION
-  TYPE _array[SIZE] = {};
 public:
+  TYPE _array[SIZE] = {};
   StaticVector() = default;
   virtual ~StaticVector() = default;
   virtual StaticVector operator+(const StaticVector &other) override;
@@ -85,26 +85,10 @@ template<typename TYPE, size_t SIZE>
 void StaticVector<TYPE, SIZE>::printVector(std::ostream& os) const
 {
   os << "Vector :" << "\n[ ";
-  // i --> 0 to be read as ((i--) > 0)
-  for (std::size_t i = SIZE; i --> 0;) {
+  for (std::size_t i = 0; i < SIZE; ++i)
     os << _array[i] << " " ;
-  }
   os << "]\n";
 
 }
-
-// template<typename TYPE, size_t SIZE>
-// StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator=(const StaticVector<TYPE, SIZE> &rhs)
-// {
-//   // Check for self-assignment!
-//   if (this == &rhs)
-//     return *this;
-//   for (size_t i = 0; i < SIZE; i++) {
-//     std::cout << "esaaa" << "\n";
-//     this -> _array[i] = rhs._array[i];
-//   }
-
-//   return *this;
-// }
 
 #endif /* STATICVECT_H */
