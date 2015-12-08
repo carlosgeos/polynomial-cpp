@@ -23,7 +23,7 @@ class IVect
 public:
   virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
   virtual TYPE& operator[] (std::ptrdiff_t) = 0;
-  virtual VectType operator+(const VectType &other) = 0;
+  virtual VectType& operator+=(const VectType &other) = 0;
   virtual VectType operator+() = 0;
   virtual VectType operator-(const VectType &other) = 0;
   virtual VectType operator-() = 0;

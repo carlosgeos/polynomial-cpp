@@ -13,9 +13,16 @@
 
 int main() {
 
+  DynamicVector<int> dv3(6,3);
+  std::cout << dv3 << "\n";
+
+
   DynamicVector<int> dv(6);
   std::cout << "Six zeroes" << "\n";
+  dv += dv3;
+  dv += dv3;
   std::cout << dv << "\n";
+
 
   StaticVector<int, 4> sv;
   sv[0] = 10;

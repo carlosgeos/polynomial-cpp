@@ -18,9 +18,7 @@ public:
   DynamicVector (DynamicVector&&);
   virtual ~DynamicVector () {delete[] _val;}
 
-  std::size_t siz() const {return _size;}
-
-  virtual DynamicVector operator+(const DynamicVector&) override;
+  virtual DynamicVector& operator+=(const DynamicVector&) override;
   virtual DynamicVector operator+() override;
   virtual DynamicVector operator-(const DynamicVector&) override;
   virtual DynamicVector operator-() override;
@@ -40,13 +38,10 @@ DynamicVector<TYPE>::DynamicVector(const StaticVector<TYPE, S>& sv) : _size(S), 
 }
 
 template<typename TYPE>
-DynamicVector<TYPE> DynamicVector<TYPE>::operator+(const DynamicVector<TYPE> &other)
+DynamicVector<TYPE>& DynamicVector<TYPE>::operator+=(const DynamicVector<TYPE> &other)
 {
-  DynamicVector<TYPE> result = *this;
-  for (size_t i = 0; i < _size; i++)
-    _val[i] += other._val[i];
-
-  return result;
+  for (size_t i = 0; i < _size; i++) _val[i] += other._val[i];
+  return *this;
 }
 
 template<typename TYPE>

@@ -13,7 +13,7 @@ public:
   TYPE _array[SIZE] = {};
   StaticVector() = default;
   virtual ~StaticVector() = default;
-  virtual StaticVector operator+(const StaticVector &other) override;
+  virtual StaticVector& operator+=(const StaticVector &other) override;
   virtual StaticVector operator+() override;
   virtual StaticVector operator-(const StaticVector &other) override;
   virtual StaticVector operator-() override;
@@ -25,15 +25,12 @@ public:
 
 
 template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+(const StaticVector<TYPE, SIZE> &other)
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator+=(const StaticVector<TYPE, SIZE> &other)
 {
-  StaticVector<TYPE, SIZE> final = *this;
-  for (size_t i = 0; i < SIZE; i++) {
-    final._array[i] += other._array[i];
-  }
-
-  return final;
+  for (size_t i = 0; i < SIZE; i++) _array[i] += other._array[i];
+  return *this;
 }
+
 
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+()
