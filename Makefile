@@ -1,4 +1,4 @@
-CC = g++			#Version: g++ (GCC) 5.2.0
+CC = g++			#Version: g++ (GCC) 5.3.0
 CFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
 -Weffc++ -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept		\
 -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo			\

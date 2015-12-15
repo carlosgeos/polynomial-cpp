@@ -25,7 +25,7 @@ public:
   virtual TYPE& operator[] (std::ptrdiff_t) = 0;
   virtual VectType& operator+=(const VectType &other) = 0;
   virtual VectType operator+() = 0;
-  virtual VectType operator-(const VectType &other) = 0;
+  virtual VectType& operator-=(const VectType &other) = 0;
   virtual VectType operator-() = 0;
   virtual ~IVect() = default;
 
