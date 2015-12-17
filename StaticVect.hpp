@@ -3,28 +3,27 @@
 
 #include "IVect.hpp"
 
-// Formward declaration
+// Forward declaration
 template <typename TYPE>
 class DynamicVector;
 
 // size_t is used since that is the result type of sizeof expression
 // and is preferred for counting in arrays etc.
 template<typename TYPE, size_t SIZE>
-class StaticVector : public IVect<StaticVector<TYPE, SIZE>, TYPE>
+class StaticVector : public IVect<StaticVector<TYPE, SIZE>>
 {
   // Array declaration and INITIALIZATION
   TYPE _array[SIZE] = {};
 public:
   StaticVector() = default;
-  virtual ~StaticVector () = default;		      // Default ctor
+  ~StaticVector () = default;		      // Default ctor
   explicit StaticVector (const DynamicVector<TYPE>&); // Conversion ctor
-  virtual StaticVector& operator+= (const StaticVector &other) override;
-  virtual StaticVector operator+ () override;
-  virtual StaticVector& operator-= (const StaticVector &other) override;
-  virtual StaticVector operator- () override;
-  const TYPE& operator[] (std::ptrdiff_t) const override;
-  TYPE& operator[] (std::ptrdiff_t) override;
-  virtual void printVector (std::ostream& os) const override;
+  StaticVector& addMe (const StaticVector &other);
+  StaticVector& subMe (const StaticVector &other);
+  StaticVector& minus ();
+  const TYPE get (std::ptrdiff_t) const;
+  TYPE& get(std::ptrdiff_t);
+  void printVector (std::ostream& os) const;
 
 };
 
@@ -39,7 +38,7 @@ StaticVector<TYPE, SIZE>::StaticVector(const DynamicVector<TYPE>& dv) {
 
 
 template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator+=(const StaticVector<TYPE, SIZE> &other)
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::addMe(const StaticVector<TYPE, SIZE> &other)
 {
   for (size_t i = 0; i < SIZE; i++) _array[i] += other[i];
   return *this;
@@ -47,21 +46,14 @@ StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator+=(const StaticVecto
 
 
 template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator+()
-{
-  return *this;
-}
-
-
-template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator-=(const StaticVector<TYPE, SIZE> &other)
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::subMe(const StaticVector<TYPE, SIZE> &other)
 {
   for (size_t i = 0; i < SIZE; i++) _array[i] -= other[i];
   return *this;
 }
 
 template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-()
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::minus()
 {
   for (size_t i = 0; i < SIZE; i++) _array[i] = -(_array[i]);
   return *this;
@@ -69,18 +61,16 @@ StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::operator-()
 
 
 template <typename TYPE, std::size_t SIZE>
-const TYPE& StaticVector<TYPE, SIZE>::operator[] (std::ptrdiff_t i) const
+const TYPE StaticVector<TYPE, SIZE>::get(std::ptrdiff_t i) const
 {
-  std::cout << "i am begin called const" << "\n";
   if (std::size_t(i) >= SIZE)
     throw std::out_of_range("Vector index out of range");
   return _array[i];
 }
 
 template <typename TYPE, std::size_t SIZE>
-TYPE& StaticVector<TYPE, SIZE>::operator[] (std::ptrdiff_t i)
+TYPE& StaticVector<TYPE, SIZE>::get (std::ptrdiff_t i)
 {
-  std::cout << "i am being called" << "\n";
   if (std::size_t(i) >= SIZE)
     throw std::out_of_range("Vector index out of range");
   return _array[i];

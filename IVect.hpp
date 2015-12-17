@@ -12,24 +12,33 @@ char const *super[] = {"\u2070", "\u00B9",
 		       "\u2076", "\u2077",
 		       "\u2078", "\u2079"};
 
-template<typename VectType, typename TYPE>
+// Interface for vectors. All static
+template<typename VectType>
 class IVect
 {
+  const VectType& child() const {return *static_cast<const VectType*>(this);}
+  VectType& child() {return *static_cast<VectType*>(this);}
   friend std::ostream& operator<<(std::ostream& os, const VectType& v) {
     v.printVector(os);
     return os;
   }
-  virtual void printVector(std::ostream& os) const =0;
 public:
-  virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
-  virtual TYPE& operator[] (std::ptrdiff_t) = 0;
-  virtual VectType& operator+=(const VectType &other) = 0;
-  virtual VectType operator+() = 0;
-  virtual VectType& operator-=(const VectType &other) = 0;
-  virtual VectType operator-() = 0;
-  virtual ~IVect() = default;
+  const auto operator[] (std::ptrdiff_t i) const {
+    return child().get(i);}
+  auto& operator[] (std::ptrdiff_t i) {
+    return child().get(i);}
+  void operator+=(const VectType &other) {
+    child().addMe(other);}
+  void operator-=(const VectType &other) {
+    child().subMe(other);}
+  void operator-() {
+    child().minus();}
+
+  ~IVect() = default;
 
 };
+
+
 
 // template<typename VectType, typename TYPE>
 // std::ostream& operator<<(std::ostream& os, const VectType& v) {

@@ -9,7 +9,7 @@ class StaticVector;
 
 
 template <typename TYPE>
-class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
+class DynamicVector : public IVect<DynamicVector<TYPE>> {
   std::size_t _size;
   TYPE* _val;
 public:
@@ -19,17 +19,16 @@ public:
   template<size_t S>  // Conversion from all sorts of static vectors.
   explicit DynamicVector (const StaticVector<TYPE, S>&);
   DynamicVector (DynamicVector&&);
-  virtual ~DynamicVector () {delete[] _val;}
-  virtual DynamicVector& operator+=(const DynamicVector&) override;
-  virtual DynamicVector operator+() override;
-  virtual DynamicVector& operator-=(const DynamicVector&) override;
-  virtual DynamicVector operator-() override;
-  inline const TYPE& operator[] (std::ptrdiff_t) const override;
-  inline TYPE& operator[] (std::ptrdiff_t) override;
+  ~DynamicVector () {delete[] _val;}
+  DynamicVector& addMe(const DynamicVector&);
+  DynamicVector& subMe(const DynamicVector&);
+  DynamicVector minus();
+  const TYPE& get(std::ptrdiff_t) const;
+  TYPE& get(std::ptrdiff_t);
   std::size_t getSize () const {return _size;}
   DynamicVector& operator= (const DynamicVector&);              // opérateur d'assignation
   DynamicVector& operator= (DynamicVector&&);                   // opérateur de transfert
-  virtual void printVector(std::ostream&) const override;
+  void printVector(std::ostream&) const;
 
 };
 
@@ -41,41 +40,35 @@ DynamicVector<TYPE>::DynamicVector(const StaticVector<TYPE, S>& sv) : _size(S), 
 }
 
 template<typename TYPE>
-DynamicVector<TYPE>& DynamicVector<TYPE>::operator+=(const DynamicVector<TYPE> &other)
+DynamicVector<TYPE>& DynamicVector<TYPE>::addMe(const DynamicVector<TYPE> &other)
 {
   for (size_t i = 0; i < _size; ++i) _val[i] += other._val[i];
   return *this;
 }
 
 template<typename TYPE>
-DynamicVector<TYPE> DynamicVector<TYPE>::operator+()
-{
-  return *this;
-}
-
-template<typename TYPE>
-DynamicVector<TYPE>& DynamicVector<TYPE>::operator-=(const DynamicVector<TYPE> &other)
+DynamicVector<TYPE>& DynamicVector<TYPE>::subMe(const DynamicVector<TYPE> &other)
 {
   return *this;
 }
 
 
 template<typename TYPE>
-DynamicVector<TYPE> DynamicVector<TYPE>::operator-()
+DynamicVector<TYPE> DynamicVector<TYPE>::minus()
 {
   return *this;
 }
 
 
 template <typename TYPE>
-const TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) const {
+const TYPE& DynamicVector<TYPE>::get(std::ptrdiff_t i) const {
   if (std::size_t(i) >= _size)
     throw std::out_of_range("DynamicVector : Index out of range");
   return _val[i];
 }
 
 template <typename TYPE>
-TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) {
+TYPE& DynamicVector<TYPE>::get(std::ptrdiff_t i) {
   if (std::size_t(i) >= _size) {
     std::cout << "Increasing size of vector" << "\n";
     DynamicVector<TYPE> tempVect(i + 5, 0);
