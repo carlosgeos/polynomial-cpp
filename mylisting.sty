@@ -2,6 +2,8 @@
 \ProvidesPackage{mylisting}[2015/11/12 Listing LaTeX package]
 
 \RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{inconsolata}
 \RequirePackage{graphicx}
 \RequirePackage{xcolor}
 \RequirePackage{listings}
@@ -47,6 +49,7 @@
    frame=trBL,                    % adds a frame around the code
    keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
    keywordstyle=\color{myblue},       % keyword style
+   inputencoding=utf8,
 %% %  language=C++,                 % the language of the code
    morekeywords={*,...},            % if you want to add more keywords to the set
    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)

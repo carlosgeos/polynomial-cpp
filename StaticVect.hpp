@@ -10,21 +10,23 @@ class DynamicVector;
 // size_t is used since that is the result type of sizeof expression
 // and is preferred for counting in arrays etc.
 template<typename TYPE, size_t SIZE>
-class StaticVector : public IVect<StaticVector<TYPE, SIZE>>
+class StaticVector : public IVect<StaticVector<TYPE, SIZE>, TYPE>
 {
   // Array declaration and INITIALIZATION
   TYPE _array[SIZE] = {};
 public:
   StaticVector() = default;
-  ~StaticVector () = default;		      // Default ctor
   explicit StaticVector (const DynamicVector<TYPE>&); // Conversion ctor
-  StaticVector& addMe (const StaticVector &other);
-  StaticVector& subMe (const StaticVector &other);
+  StaticVector& addMe (const StaticVector&);
+  StaticVector add (const StaticVector&) const;
+  StaticVector& subMe (const StaticVector&);
+  StaticVector sub (const StaticVector&) const;
+  StaticVector& mulMe (const TYPE& other);
   StaticVector& minus ();
   const TYPE get (std::ptrdiff_t) const;
   TYPE& get(std::ptrdiff_t);
-  void printVector (std::ostream& os) const;
-
+  void print (std::ostream& os) const;
+  ~StaticVector () = default;
 };
 
 template<typename TYPE, size_t SIZE>
@@ -44,11 +46,33 @@ StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::addMe(const StaticVector<TYP
   return *this;
 }
 
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::add(const StaticVector& v2) const
+{
+  StaticVector<TYPE,SIZE> result = *this;
+  result += v2;
+  return result;
+}
 
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::subMe(const StaticVector<TYPE, SIZE> &other)
 {
   for (size_t i = 0; i < SIZE; i++) _array[i] -= other[i];
+  return *this;
+}
+
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE> StaticVector<TYPE, SIZE>::sub(const StaticVector& v2) const
+{
+  StaticVector<TYPE,SIZE> result = *this;
+  result.subMe(v2);
+  return result;
+}
+
+template<typename TYPE, size_t SIZE>
+StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::mulMe(const TYPE& elem)
+{
+  for (size_t i = 0; i < SIZE; i++) _array[i] *= elem;
   return *this;
 }
 
@@ -76,9 +100,8 @@ TYPE& StaticVector<TYPE, SIZE>::get (std::ptrdiff_t i)
   return _array[i];
 }
 
-
 template<typename TYPE, size_t SIZE>
-void StaticVector<TYPE, SIZE>::printVector(std::ostream& os) const
+void StaticVector<TYPE, SIZE>::print(std::ostream& os) const
 {
   os << "Vector :" << "\n[ ";
   for (std::size_t i = 0; i < SIZE; ++i)

@@ -2,19 +2,35 @@
 
 title PolyMod - Class Diagram
 
+note "Type de vecteur \npassé au template" as N1
+note "Type de vecteur \npassé au template" as N2
 
-class IVect {
-  +{abstract} operator+()
-  +{abstract} operator-()
-  +{abstract} operator[]()
-  +{abstract} operator=()
-  +{abstract} operator*()
-  +{abstract} operator<<()
-  +{abstract} operator>>()
+IVect <.. N1
+N1 .. StaticVect
+IVect <.. N2
+N2 .. DynamicVect
+
+note "Type de polynôme \npassé au template" as N3
+note "Type de polynôme \npassé au template" as N4
+
+IPoly <.. N3
+N3 .. Poly
+IPoly <.. N4
+N4 .. PolyMod
+
+class IVect <VectType, TYPE>{
+  # IVect()
+  +operator+()
+  +operator-()
+  +operator[]()
+  +operator=()
+  +operator*()
+  +operator<<()
+  +operator>>()
 
 }
 
-class IPoly {
+class IPoly <PolyType, TYPE>{
   -signed int degree
   +operator<<()
   +operator>>()
@@ -22,28 +38,45 @@ class IPoly {
   +operator*()
 }
 
-class StaticVect {
-
+class StaticVect<TYPE, SIZE> {
+  - TYPE[] _array
+  + get()
+  + add()
+  + sub()
+  + mul()
+  + print()
 }
 
-class DynamicVect {
-
+class DynamicVect<TYPE>{
+  - TYPE _dynArr*
+  - size_t _size
+  + DynamicVect(const StaticVect&)
+  + DynamicVect(const TYPE&)
+  + DynamicVect()
+  + get()
+  + add()
+  + sub()
+  + mul()
+  + print()
 }
 
 class PolyMod {
 
 }
 
-class Poly {
-
+class Poly<TYPE> {
+  - signed int deg
+  + horner()
+  + mulPol()
+  + print()
 }
 
-IPoly <|-down- Poly: Inheritance
-IPoly <|-down- PolyMod: Inheritance
-IVect <|-down- IPoly: Inheritance
-IVect "1" *-down- "many" StaticVect: Composition
-IVect "1" *-down- "many" DynamicVect: Composition
-StaticVect <-up- PolyMod: asdf
-DynamicVect <-up- Poly : asdf
+
+IVect <|-- StaticVect
+IVect <|-- DynamicVect
+StaticVect <|-down- PolyMod
+DynamicVect <|-down- Poly
+IPoly <|-down- Poly
+IPoly <|-down- PolyMod
 
 @enduml
