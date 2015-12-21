@@ -11,12 +11,12 @@ IVect <.. N2
 N2 .. DynamicVect
 
 note "Type de polynôme \npassé au template" as N3
-note "Type de polynôme \npassé au template" as N4
+note "Const ref de polynôme \npassé au template\n ERREUR" as N4
 
 IPoly <.. N3
 N3 .. Poly
-IPoly <.. N4
-N4 .. PolyMod
+StaticVect .. N4
+N4 ..> PolyMod
 
 class IVect <VectType, TYPE>{
   # IVect()
@@ -60,8 +60,9 @@ class DynamicVect<TYPE>{
   + print()
 }
 
-class PolyMod {
-
+class PolyMod<TYPE, div, DEG> {
+  + mulPol()
+  + print()
 }
 
 class Poly<TYPE> {
@@ -74,9 +75,8 @@ class Poly<TYPE> {
 
 IVect <|-- StaticVect
 IVect <|-- DynamicVect
-StaticVect <|-down- PolyMod
+Poly <|-down- PolyMod
 DynamicVect <|-down- Poly
 IPoly <|-down- Poly
-IPoly <|-down- PolyMod
 
 @enduml

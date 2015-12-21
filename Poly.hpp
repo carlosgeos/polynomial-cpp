@@ -15,18 +15,18 @@ class Poly :
 public:
   using DynamicVector<TYPE>::DynamicVector;
   int deg() const {return static_cast<int>(this -> getSize() - 1);} // getter
-  void print(std::ostream& os) const override;
+  virtual void print(std::ostream& os) const override;
   TYPE horner(const TYPE&) const; // operator(), evaluation
-  Poly mulmul(const Poly&) const; // polynomial multiplication
+  Poly mulPol(const Poly&) const; // polynomial multiplication
 };
 
 template<typename TYPE>
 void Poly<TYPE>::print(std::ostream& os) const {
   os << "Polynomial :\n";
   for (std::size_t i = this -> _size; i --> 0;) {
-    if (this -> _val[i]) {
-      if (this -> _val[i] >= 0) os << " +";
-      os << this -> _val[i];
+    if ((*this)[i]) {
+      if ((*this)[i] >= 0) os << " +";
+      os << (*this)[i];
       if (i) os << "x^" << i;
       os << " ";
     }
@@ -45,7 +45,7 @@ TYPE Poly<TYPE>::horner(const TYPE& elem) const
 }
 
 template<typename TYPE>
-Poly<TYPE> Poly<TYPE>::mulmul(const Poly& p2) const
+Poly<TYPE> Poly<TYPE>::mulPol(const Poly& p2) const
 {
   Poly<TYPE> p3;
   if (deg() < 0 || p2.deg() < 0) {;} // NOP

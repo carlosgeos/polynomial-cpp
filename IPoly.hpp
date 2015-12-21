@@ -19,7 +19,7 @@ public:
   TYPE operator() (const TYPE& elem) {
     return child().horner(elem);}
   friend PolyType operator*(const PolyType& p1, const PolyType& p2) {
-    return p1.mulmul(p2);}
+    return p1.mulPol(p2);}
 
 };
 

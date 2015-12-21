@@ -10,61 +10,50 @@
 
 #include "StaticVect.hpp"
 #include "DynamicVect.hpp"
-#include "Poly.hpp"
+#include "PolyMod.hpp"
+
+
+
 
 int main() {
 
-  StaticVector<int, 4> sv;
-  sv[1] = 17;
-  sv[2] = 3;
-  sv[3] = -23;
-  StaticVector<int, 4> sv2;
-  sv2[1] = 7;
 
-  std::cout << sv << "\n";
-  sv = (sv + sv2);
+  StaticVector<int, 5> static_vector1;
+  static_vector1[2] = 2;
+  static_vector1[1] = 3;
+  std::cout << static_vector1 << "\n"; // [ 0 3 2 0 0 ]
 
-  std::cout << sv << "\n";
+  DynamicVector<double> dyn_vector1(5, 3); // [ 3 3 3 3 3 ]
+  DynamicVector<double> dyn_vector2(5, 2); // [ 2 2 2 2 2 ]
 
-  // StaticVector<int, 4> sv3;
-  // sv3[0] = 1;
+  std::cout << dyn_vector1 << "\n";
+  std::cout << dyn_vector2 << "\n";
 
-  // sv += sv2;
-  // sv3 -= sv;
+  dyn_vector1 =  2 - dyn_vector2; // With implicit conversion
+  dyn_vector1[3] = 3.5;
+  dyn_vector1 *= 3.2;
 
+  std::cout << dyn_vector1 << "\n"; // [ 0 -6.4 -6.4 11.2 -6.4 ]
 
-  // std::cout << sv3 << "\n";
-  // -sv3;
+  Poly<double> poly1(size_t(5)); // Avoid calling conversion ctor
 
-  // sv3 += sv;
+  poly1[0] = 5; poly1[2] = 3; poly1[3] = 1; poly1[4] = -2;
+  std::cout << poly1 << "\n";	// -2x^4 + 1x^3 + 3x^2 + 5
+  poly1 += 5;			// -2x^4 + 1x^3 + 3x^2 + 10
 
-  // std::cout << sv3 << "\n";
+  Poly<double> poly2(size_t(3));
+  poly2[0] = 3; poly2[1] = 2; poly2[2] = -1;
+  std::cout << poly2 << "\n"; 	// -1x^2 + 2x^1 + 3
 
-  // std::cout << "dyyyyyyyyyyyyyyyyyyyyyyyyyyyyn" << "\n";
+  poly1 = poly1 * poly2;
+  std::cout << poly1 << "\n";	// +2x^6 -5x^5 -7x^4  +9x^3 -1x^2  +20x^1  +30
 
-  // DynamicVector<int> dv1(4,4);
+  -poly1;			// -2x^6 +5x^5 +7x^4  -9x^3 +1x^2  -20x^1  -30
 
-  // std::cout << dv1 << "\n";
+  std::cout << poly1(2) << "\n"; // 6
 
-  // int a =5;
-
-  // dv1 = a + dv1;
-
-
-
-  // std::cout << dv1 << "\n";
-
-  Poly<int> eso(4, 2);
-  std::cout << eso << "\n";
-  Poly<int> esa(4, 3);
-  esa[2] = -4;
-  std::cout << esa << "\n";
-
-  esa[8] = 1;
-
-  Poly<int> sol = esa * eso;
-
-  std::cout << sol << "\n";
+  // constexpr as non type parameter for template.
+  // PolyMod<int, static_vector1, 4> polymod1;
 
 
   return 0;

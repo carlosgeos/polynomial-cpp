@@ -12,6 +12,7 @@ class DynamicVector;
 template<typename TYPE, size_t SIZE>
 class StaticVector : public IVect<StaticVector<TYPE, SIZE>, TYPE>
 {
+protected:
   // Array declaration and INITIALIZATION
   TYPE _array[SIZE] = {};
 public:
@@ -21,11 +22,12 @@ public:
   StaticVector add (const StaticVector&) const;
   StaticVector& subMe (const StaticVector&);
   StaticVector sub (const StaticVector&) const;
-  StaticVector& mulMe (const TYPE& other);
+  StaticVector& mulMe (const TYPE&);
   StaticVector& minus ();
   const TYPE get (std::ptrdiff_t) const;
   TYPE& get(std::ptrdiff_t);
-  void print (std::ostream& os) const;
+  void print (std::ostream&) const;
+  void extract(std::istream&);
   ~StaticVector () = default;
 };
 
@@ -107,7 +109,13 @@ void StaticVector<TYPE, SIZE>::print(std::ostream& os) const
   for (std::size_t i = 0; i < SIZE; ++i)
     os << _array[i] << " " ;
   os << "]\n";
+}
 
+template<typename TYPE, size_t SIZE>
+void StaticVector<TYPE, SIZE>::extract(std::istream& is)
+{
+  // Simple solution... Component by component
+  for (size_t i = 0; i < SIZE; ++i) is >> _array[i];
 }
 
 #endif /* STATICVECT_H */

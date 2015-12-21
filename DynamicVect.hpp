@@ -11,7 +11,7 @@ class StaticVector;
 template <typename TYPE>
 class DynamicVector : public IVect<DynamicVector<TYPE>, TYPE> {
  protected:
-  std::size_t _size;
+  std::size_t _size=0;
   TYPE* _val;
 public:
   explicit DynamicVector (size_t size = 0): _size(size), _val(new TYPE[size]()) {} // 0-initialized with '()'
@@ -26,15 +26,35 @@ public:
   DynamicVector add (const DynamicVector&) const;
   DynamicVector& subMe(const DynamicVector&);
   DynamicVector sub (const DynamicVector&) const;
-  DynamicVector& mulMe (const TYPE& other);
+  DynamicVector& mulMe (const TYPE&);
   DynamicVector& minus();
   const TYPE& get(std::ptrdiff_t) const;
   TYPE& get(std::ptrdiff_t);
   virtual void print(std::ostream&) const;
-  virtual ~DynamicVector () {delete[] _val;}
+  void extract(std::istream&);
   DynamicVector& operator=(const DynamicVector&);
   DynamicVector& operator=(DynamicVector&&);
+  ~DynamicVector () {delete[] _val;}
+
 };
+
+// Ctors
+
+template <typename TYPE>
+DynamicVector<TYPE>::DynamicVector (std::size_t size, const TYPE& elem):
+  _size(size), _val(new TYPE[size]) {
+  for (std::size_t i = 0; i < size; ++i) _val[i] = elem;
+}
+
+template <typename TYPE>
+DynamicVector<TYPE>::DynamicVector (const DynamicVector& v): _size(v._size), _val(new TYPE[v._size]) {
+  for (std::size_t i = 0; i < v._size; ++i) _val[i] = v._val[i];
+}
+
+template <typename TYPE>
+DynamicVector<TYPE>::DynamicVector (DynamicVector&& v): _size(v._size), _val(v._val) {
+  v._size = 0; v._val = nullptr;
+}
 
 template<typename TYPE>
 template<size_t S>
@@ -49,6 +69,8 @@ DynamicVector<TYPE>::DynamicVector(const TYPE& elem) : _size(1), _val(new TYPE[1
   _val[0] = elem;
 }
 
+
+// Operations
 
 template<typename TYPE>
 DynamicVector<TYPE>& DynamicVector<TYPE>::addMe(const DynamicVector<TYPE> &other)
@@ -125,23 +147,6 @@ TYPE& DynamicVector<TYPE>::get(std::ptrdiff_t i) {
   return _val[i];
 }
 
-// Ctors
-
-template <typename TYPE>
-DynamicVector<TYPE>::DynamicVector (std::size_t size, const TYPE& elem):
-  _size(size), _val(new TYPE[size]) {
-  for (std::size_t i = 0; i < size; ++i) _val[i] = elem;
-}
-
-template <typename TYPE>
-DynamicVector<TYPE>::DynamicVector (const DynamicVector& v): _size(v._size), _val(new TYPE[v._size]) {
-  for (std::size_t i = 0; i < v._size; ++i) _val[i] = v._val[i];
-}
-
-template <typename TYPE>
-DynamicVector<TYPE>::DynamicVector (DynamicVector&& v): _size(v._size), _val(v._val) {
-  v._size = 0; v._val = nullptr;
-}
 
 // Assignment
 
@@ -163,6 +168,8 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator=(DynamicVector&& v) {
   return *this;
 }
 
+// IO
+
 template<typename TYPE>
 void DynamicVector<TYPE>::print(std::ostream& os) const {
   os << "Vector :" << "\n[ ";
@@ -170,6 +177,19 @@ void DynamicVector<TYPE>::print(std::ostream& os) const {
     os << _val[i] << ' ';
   os << "]\n";
 
+}
+
+template<typename TYPE>
+void DynamicVector<TYPE>::extract(std::istream& is)
+{
+  // Simple solution... Component by component until Ctrl + D or non
+  // TYPE.
+  size_t cnt = 0;
+  TYPE coef;
+  while (std::cin >> coef) {
+    (*this)[cnt] = coef;
+    ++cnt;
+  }
 }
 
 #endif /* DYNAMICVECT_H */

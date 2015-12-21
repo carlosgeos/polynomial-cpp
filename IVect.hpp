@@ -11,13 +11,15 @@ class IVect
 {
 protected:
   IVect() = default;
-  virtual ~IVect() = default;
+  ~IVect() = default;
 private:
   const VectType& child() const {return *static_cast<const VectType*>(this);}
   VectType& child() {return *static_cast<VectType*>(this);}
 public:
   friend std::ostream& operator<<(std::ostream& os, const VectType& v) {
     v.print(os); return os;}
+  friend std::istream& operator>>(std::istream& is, VectType& v) {
+    v.extract(is); return is;}
   friend VectType operator+(const VectType& v1, const VectType& v2) {
     return v1.add(v2);}
   friend VectType operator-(const VectType& v1, const VectType& v2) {
@@ -34,10 +36,6 @@ public:
     child().subMe(other);}
   void operator-() {
     child().minus();}
-  // VectType& operator=(const VectType& other) {
-  //   return child().copy(other);}
-  // VectType& operator=(VectType&& other) {
-  //   return child().copy(other);}
 
 };
 
