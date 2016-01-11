@@ -1,0 +1,82 @@
+@startuml
+
+title PolyMod - Class Diagram
+
+note "Type de vecteur \npassé au template" as N1
+note "Type de vecteur \npassé au template" as N2
+
+IVect <.. N1
+N1 .. StaticVect
+IVect <.. N2
+N2 .. DynamicVect
+
+note "Type de polynôme \npassé au template" as N3
+note "Const ref de polynôme \npassé au template\n ERREUR" as N4
+
+IPoly <.. N3
+N3 .. Poly
+StaticVect .. N4
+N4 ..> PolyMod
+
+class IVect <VectType, TYPE>{
+  # IVect()
+  +operator+()
+  +operator-()
+  +operator[]()
+  +operator=()
+  +operator*()
+  +operator<<()
+  +operator>>()
+
+}
+
+class IPoly <PolyType, TYPE>{
+  -signed int degree
+  +operator<<()
+  +operator>>()
+  +operator()
+  +operator*()
+}
+
+class StaticVect<TYPE, SIZE> {
+  - TYPE[] _array
+  + get()
+  + add()
+  + sub()
+  + mul()
+  + print()
+}
+
+class DynamicVect<TYPE>{
+  - TYPE _dynArr*
+  - size_t _size
+  + DynamicVect(const StaticVect&)
+  + DynamicVect(const TYPE&)
+  + DynamicVect()
+  + get()
+  + add()
+  + sub()
+  + mul()
+  + print()
+}
+
+class PolyMod<TYPE, div, DEG> {
+  + mulPol()
+  + print()
+}
+
+class Poly<TYPE> {
+  - signed int deg
+  + horner()
+  + mulPol()
+  + print()
+}
+
+
+IVect <|-- StaticVect
+IVect <|-- DynamicVect
+Poly <|-down- PolyMod
+DynamicVect <|-down- Poly
+IPoly <|-down- Poly
+
+@enduml

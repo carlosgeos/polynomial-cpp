@@ -1,0 +1,6 @@
+.DS_Store
+*.o
+tex_files/listing.*
+*.dSYM
+execution.txt
+*.png
