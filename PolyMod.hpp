@@ -6,7 +6,6 @@
 #include <cstdlib>
 
 #include "Poly.hpp"
-#include "Div.hpp"
 
 template<typename TYPE, int DEG, const StaticVector<TYPE, DEG-1>& div>
 class PolyMod : public Poly<TYPE>
