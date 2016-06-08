@@ -1,18 +1,21 @@
-CXX = g++-5			#Version: g++ (GCC) 5.3.0
+if [ -z ${CXX+x} ]; then CXX=g++5;fi
+
 CXXFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
 -Weffc++ -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept		\
 -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo			\
 -Wzero-as-null-pointer-constant -Wsuggest-final-types			\
 -Wsuggest-final-methods -Wsuggest-override
-SOURCE = main.cpp
-DEPS = *.hpp
 
-all: polynomial.o
+SOURCES = main.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
 
-polynomial.o: $(SOURCE) $(DEPS)
-	$(CXX) $(CXXFLAGS) $< -o $@
+run: $(OBJECTS)
+	$(CXX) $< -o $@
 
-execute: polynomial.o
+%o.: %.cpp
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+execute: run
 	./$< | tee execution.txt
 
 listing: listing.tex
@@ -20,3 +23,6 @@ listing: listing.tex
 
 uml: class.uml
 	plantuml $< && gthumb class.png&
+
+clean:
+	rm run $(OBJECTS)
