@@ -1,5 +1,3 @@
-if [ -z ${CXX+x} ]; then CXX=g++5;fi
-
 CXXFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
 -Weffc++ -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept		\
 -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo			\
@@ -7,7 +5,13 @@ CXXFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
 -Wsuggest-final-methods -Wsuggest-override
 
 SOURCES = main.cpp
+HEADERS = $(wildcard *.hpp)
 OBJECTS = $(SOURCES:.cpp=.o)
+
+LISTING = listing.tex
+UML_FILE = class.uml
+
+.PHONY: listing clean
 
 run: $(OBJECTS)
 	$(CXX) $< -o $@
@@ -18,11 +22,11 @@ run: $(OBJECTS)
 execute: run
 	./$< | tee execution.txt
 
-listing: listing.tex
-	latexmk -xelatex -output-directory=tex_files $<
+uml: $(UML_FILE)
+	plantuml $<
 
-uml: class.uml
-	plantuml $< && gthumb class.png&
+listing: $(HEADERS) $(SOURCES)
+	latexmk -xelatex -output-directory=tex_files $(LISTING)
 
 clean:
 	rm run $(OBJECTS)
