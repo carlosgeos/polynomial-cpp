@@ -1,22 +1,32 @@
-CC = g++			#Version: g++ (GCC) 5.3.0
-CFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
+CXXFLAGS = -std=c++14 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion	\
 -Weffc++ -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept		\
 -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo			\
 -Wzero-as-null-pointer-constant -Wsuggest-final-types			\
 -Wsuggest-final-methods -Wsuggest-override
-SOURCE = main.cpp
-DEPS = *.hpp
 
-all: polynomial.o execute
+SOURCES = main.cpp
+HEADERS = $(wildcard *.hpp)
+OBJECTS = $(SOURCES:.cpp=.o)
 
-polynomial.o: $(SOURCE) $(DEPS)
-	$(CC) $(CFLAGS) $< -o $@
+LISTING = listing.tex
+UML_FILE = class.uml
 
-execute: polynomial.o
+.PHONY: listing clean
+
+run: $(OBJECTS)
+	$(CXX) $< -o $@
+
+%o.: %.cpp
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+execute: run
 	./$< | tee execution.txt
 
-listing: listing.tex
-	latexmk -xelatex -output-directory=tex_files $<
+uml: $(UML_FILE)
+	plantuml $<
 
-uml: class.uml
-	plantuml $< && gthumb class.png&
+listing: $(HEADERS) $(SOURCES)
+	latexmk -xelatex -output-directory=tex_files $(LISTING)
+
+clean:
+	rm run $(OBJECTS)

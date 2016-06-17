@@ -14,14 +14,6 @@
 
 int main() {
 
-  DynamicVector<int> dv3(6,3);
-
-  dv3[2] = 1;
-
-  std::cout << dv3 << "\n";
-
-  StaticVector<int, 8> svconv(dv3);
-
-  std::cout << svconv << "\n";
-  return 0;
+    std::cout << "testing" << "\n";
+    return 0;
 }
