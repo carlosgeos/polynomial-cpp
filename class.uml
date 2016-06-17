@@ -1,49 +1,39 @@
 @startuml
 
-title PolyMod - Class Diagram
+title Polynômes Modulaires - Class Diagram
 
+skinparam class {
+  BackgroundColor #E6ECED
+  ArrowColor #17545D
+  BorderColor #17545D
+}
 
-class IVect {
-  +{abstract} operator+()
-  +{abstract} operator-()
-  +{abstract} operator[]()
-  +{abstract} operator=()
-  +{abstract} operator*()
-  +{abstract} operator<<()
-  +{abstract} operator>>()
+class IVect<typename TYPE> {
+      -- private --
+      -operator<<()
+      -operator>>()
+      -- public --
+      +{abstract} size()
+      +{abstract} operator[]
+      +{abstract} operator[] const
+      +{abstract} operator=
+      +{abstract} operator*
+      +{abstract} operator++
+      +{abstract} operator+=
+      +{abstract} operator--
+      +{abstract} operator-=
+}
+
+class staticVect<typename TYPE, size_t SIZE> {
 
 }
 
-class IPoly {
-  -signed int degree
-  +operator<<()
-  +operator>>()
-  +operator()
-  +operator*()
-}
-
-class StaticVect {
+class dynamicVect<typename TYPE> {
 
 }
 
-class DynamicVect {
+IVect <|-down- staticVect: public virtual
+IVect <|-down- dynamicVect
 
-}
-
-class PolyMod {
-
-}
-
-class Poly {
-
-}
-
-IPoly <|-down- Poly: Inheritance
-IPoly <|-down- PolyMod: Inheritance
-IVect <|-down- IPoly: Inheritance
-IVect "1" *-down- "many" StaticVect: Composition
-IVect "1" *-down- "many" DynamicVect: Composition
-StaticVect <-up- PolyMod: asdf
-DynamicVect <-up- Poly : asdf
 
 @enduml

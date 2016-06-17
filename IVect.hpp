@@ -21,6 +21,8 @@ public:
     virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
     virtual TYPE& operator[] (std::ptrdiff_t) = 0;
 
+    virtual IVect& operator=(const IVect<TYPE>&) = default;
+
     // Sum
     virtual IVect& operator+=(const IVect &other) = 0;
     virtual IVect& operator++() = 0;
@@ -34,12 +36,6 @@ public:
     virtual ~IVect() = default;
 
 };
-
-template<typename TYPE>
-IVect<TYPE> operator+(const IVect<TYPE> &other1, const IVect<TYPE> &other2)
-{
-    return other1 += other2;
-}
 
 template<typename TYPE>
 std::ostream& operator<<(std::ostream& os, const IVect<TYPE>& c)
