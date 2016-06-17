@@ -16,6 +16,7 @@ class IVect
     template<typename ANY>
     friend std::ostream& operator<<(std::ostream&, const IVect<ANY>&);
 public:
+    virtual size_t siz() const = 0;
     // Access
     virtual const TYPE& operator[] (std::ptrdiff_t) const = 0;
     virtual TYPE& operator[] (std::ptrdiff_t) = 0;
@@ -38,6 +39,23 @@ template<typename TYPE>
 IVect<TYPE> operator+(const IVect<TYPE> &other1, const IVect<TYPE> &other2)
 {
     return other1 += other2;
+}
+
+template<typename TYPE>
+std::ostream& operator<<(std::ostream& os, const IVect<TYPE>& c)
+{
+    os << "Vector :" << "\n[ ";
+    for (std::size_t i = 0; i < c.siz(); ++i)
+	os << c[i] << " " ;
+    os << "]\n";
+    return os;
+}
+
+template<typename TYPE>
+std::istream& operator>>(std::istream& is, const IVect<TYPE>& c)
+{
+    for (size_t i = 0; i < c.siz(); ++i) is >> c[i];
+    return is;
 }
 
 #endif /* IVECT_H */
