@@ -11,7 +11,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 LISTING = listing.tex
 UML_FILE = class.uml
 
-.PHONY: listing clean
+.PHONY: listing clean execute
 
 run: $(OBJECTS)
 	$(CXX) $< -o $@

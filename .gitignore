@@ -4,3 +4,14 @@ tex_files/listing.*
 *.dSYM
 execution.txt
 run
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+.TAGS
+!TAGS/
+tags
+.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH

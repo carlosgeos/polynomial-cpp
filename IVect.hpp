@@ -25,12 +25,12 @@ public:
 
     // Sum
     virtual IVect& operator+=(const IVect &other) = 0;
-    virtual IVect& operator++() = 0;
+    virtual IVect& operator++();
     // OPERATOR + is non-member
 
     // Substraction
     virtual IVect& operator-=(const IVect &other) = 0;
-    virtual IVect& operator--() = 0;
+    virtual IVect& operator--();
     // OPERATOR - is non-member
 
     virtual ~IVect() = default;
@@ -53,5 +53,29 @@ std::istream& operator>>(std::istream& is, const IVect<TYPE>& c)
     for (size_t i = 0; i < c.siz(); ++i) is >> c[i];
     return is;
 }
+
+
+template<typename TYPE>
+IVect<TYPE>& operator+(IVect<TYPE>& v1, IVect<TYPE>& v2)
+{
+    v1 += v2;
+    return v1;
+}
+
+
+template<typename TYPE>
+IVect<TYPE>& IVect<TYPE>::operator++()
+{
+    for (size_t i = 0; i < this -> siz(); ++i) (*this)[i] += 1;
+    return *this;
+}
+
+template<typename TYPE>
+IVect<TYPE>& IVect<TYPE>::operator--()
+{
+    for (size_t i = 0; i < this -> siz(); ++i) (*this)[i] -= 1;
+    return *this;
+}
+
 
 #endif /* IVECT_H */

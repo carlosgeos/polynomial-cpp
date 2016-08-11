@@ -9,8 +9,9 @@
 #include <iostream>
 
 //#include "staticVect.hpp"
-//#include "dynamicVect.hpp"
+#include "dynamicVect.hpp"
 #include "staticVect.hpp"
+#include "PolyCon.hpp"
 
 int main() {
 
@@ -20,9 +21,16 @@ int main() {
     v2[3] = 2;
 
     StaticVector<int, 5> v3;
-    v1 += v2;
-    std::cout << v1 << "\n";
-    std::cout << "testing" << "\n";
+    ++v1;
+    ++v1;
+
+    DynamicVector<int> v4;
+    DynamicVector<int> v5;
+    v4[5] = 5;
+    v5[4] = 5;
+
+    PolyCon<int> p1();
+
 
     return 0;
 }

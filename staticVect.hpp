@@ -8,7 +8,7 @@ template <typename TYPE>
 class DynamicVector;
 
 template<typename TYPE, size_t SIZE>
-class StaticVector : public virtual IVect<TYPE>
+class StaticVector : public IVect<TYPE>
 {
     // Array declaration and INITIALIZATION
     TYPE _array[SIZE] = {};
@@ -17,13 +17,11 @@ public:
     virtual ~StaticVector () = default;
     explicit StaticVector (const DynamicVector<TYPE>&); // Conversion ctor
 
-    inline size_t siz() const override {
-	return SIZE;
-    }
+    inline size_t siz() const override {return SIZE;}
 
     // Sum
     virtual StaticVector& operator+= (const IVect<TYPE> &other) override;
-    virtual StaticVector& operator++ () override;
+    //virtual StaticVector& operator++ ();
 
     // Substraction
     virtual StaticVector& operator-= (const IVect<TYPE> &other) override;
@@ -54,11 +52,11 @@ StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator+=(const IVect<TYPE>
 }
 
 
-template<typename TYPE, size_t SIZE>
-StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator++()
-{
-    ;
-}
+//template<typename TYPE, size_t SIZE>
+//StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator++()
+//{
+//    ;
+//}
 
 
 template<typename TYPE, size_t SIZE>
@@ -71,7 +69,8 @@ StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator-=(const IVect<TYPE>
 template<typename TYPE, size_t SIZE>
 StaticVector<TYPE, SIZE>& StaticVector<TYPE, SIZE>::operator--()
 {
-    ;
+    for (size_t i = 0; i < SIZE; i++) _array[i] += 1;
+    return *this;
 }
 
 

@@ -9,19 +9,21 @@ skinparam class {
 }
 
 class IVect<typename TYPE> {
-      -- private --
+      -- non-member & friend --
       -operator<<()
       -operator>>()
       -- public --
-      +{abstract} size()
+      +{abstract} siz()
       +{abstract} operator[]
       +{abstract} operator[] const
       +{abstract} operator=
       +{abstract} operator*
-      +{abstract} operator++
+      + operator++
       +{abstract} operator+=
-      +{abstract} operator--
+      +{abstract} operator+
+      + operator--
       +{abstract} operator-=
+      +{abstract} operator-
 }
 
 class staticVect<typename TYPE, size_t SIZE> {
@@ -32,8 +34,29 @@ class dynamicVect<typename TYPE> {
 
 }
 
-IVect <|-down- staticVect: public virtual
-IVect <|-down- dynamicVect
+class PolyAbs<typename TYPE> {
+      -- non-member & friend --
+      -operator<<()
+      -operator>>()
+      -_degree
+      +getDegree()
+      +operator()()
+      +operator*
+}
+
+class PolyCon<typename TYPE> {
+
+}
+
+class PolyMod<typename TYPE, const PolyCon<TYPE>&, int> {
+      -test
+}
+
+IVect <|-down- staticVect: public
+IVect <|-down- dynamicVect: public virtual
+IVect <|-down- PolyAbs: public virtual
+PolyAbs <|-down- PolyCon
+PolyAbs <|-down- PolyMod
 
 
 @enduml
