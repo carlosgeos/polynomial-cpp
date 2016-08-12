@@ -24,9 +24,9 @@ public:
     inline size_t siz() const override {return _size;}
 
     virtual DynamicVector& operator+=(const IVect<TYPE>&) override;
-    //virtual DynamicVector operator+() override;
+
     virtual DynamicVector& operator-=(const IVect<TYPE>&) override;
-    //virtual DynamicVector operator-() override;
+
     inline const TYPE& operator[] (std::ptrdiff_t) const override;
     inline TYPE& operator[] (std::ptrdiff_t) override;
     std::size_t getSize () const {return _size;}
@@ -58,6 +58,7 @@ DynamicVector<TYPE> operator+(DynamicVector<TYPE>& v1, DynamicVector<TYPE>& v2)
 template<typename TYPE>
 DynamicVector<TYPE>& DynamicVector<TYPE>::operator-=(const IVect<TYPE> &other)
 {
+    for (size_t i = 0; i < _size; ++i) _val[i] -= other[i];
     return *this;
 }
 
@@ -71,8 +72,6 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator-=(const IVect<TYPE> &other)
 
 template <typename TYPE>
 const TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) const {
-    std::cout << "asking for i: " << i << "\n";
-    std::cout << "but my size is: " << _size << "\n";
     if (std::size_t(i) >= _size)
 	throw std::out_of_range("DynamicVector : Index out of range");
     return _val[i];
@@ -81,13 +80,8 @@ const TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) const {
 template <typename TYPE>
 TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) {
     if (std::size_t(i) >= _size) {
-	std::cout << "Increasing size of vector" << "\n";
-	DynamicVector<TYPE> tempVect(i + 5, 0);
-	for (std::size_t i = 0; i < _size; ++i) tempVect[i] = _val[i];
-	*this = tempVect;
-	return _val[i];
+	throw std::out_of_range("DynamicVector : Index out of range");
     }
-
     return _val[i];
 }
 
@@ -109,7 +103,6 @@ DynamicVector<TYPE>::DynamicVector (DynamicVector&& v): _size(v._size), _val(v._
 
 template <typename TYPE>
 DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (const DynamicVector& v) {
-    std::cout << "Este" << "\n";
     if (this != &v) {
 	delete[] _val; _size = v.siz(); _val = new TYPE[v.siz()];
 	for (std::size_t i = 0; i < v.siz(); ++i) _val[i] = v[i];
@@ -120,7 +113,6 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (const DynamicVector& v) {
 template <typename TYPE>
 DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (DynamicVector&& v)
 {
-    std::cout << "el otro" << "\n";
     if (this != &v) {
 	delete[] _val; _size = v._size; _val = v._val;
 	v._size = 0; v._val = nullptr;

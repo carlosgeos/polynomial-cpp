@@ -31,7 +31,6 @@ public:
     // Substraction
     virtual IVect& operator-=(const IVect &other) = 0;
     virtual IVect& operator--();
-    // OPERATOR - is non-member
 
     virtual ~IVect() = default;
 

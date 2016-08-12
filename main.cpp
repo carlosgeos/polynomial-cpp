@@ -8,10 +8,15 @@
 
 #include <iostream>
 
+
 //#include "staticVect.hpp"
 #include "dynamicVect.hpp"
 #include "staticVect.hpp"
 #include "PolyCon.hpp"
+#include "PolyMod.hpp"
+
+PolyCon<int> pc1(5);
+
 
 int main() {
 
@@ -24,13 +29,29 @@ int main() {
     ++v1;
     ++v1;
 
-    DynamicVector<int> v4;
-    DynamicVector<int> v5;
-    v4[5] = 5;
-    v5[4] = 5;
+    DynamicVector<int> v4(5);
 
-    PolyCon<int> p1();
+    v4[3] = 4;
 
 
+    PolyCon<int> pc2(6);
+
+    pc1[3] = 4;
+    pc2[2] = -3;
+    pc2[0] = 15;
+
+    pc1 += pc2;
+
+    std::cout << pc2(0) << "\n";
+
+    PolyMod<int, pc1, 5> pm1(3);
+    PolyMod<int, pc1, 5> pm2(3);
+
+    pm1[2] = 2;
+    pm2[2] = 2;
+
+    pm1 *= pm2;
+
+    std::cout << pm1 << "\n";
     return 0;
 }

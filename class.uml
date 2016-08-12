@@ -8,55 +8,78 @@ skinparam class {
   BorderColor #17545D
 }
 
-class IVect<typename TYPE> {
-      -- non-member & friend --
-      -operator<<()
-      -operator>>()
+enum Non-memberMethods/Operators {
+     -- IVect friend --
+     -operator<<()
+     -operator>>()
+     -- PolyAbs friend --
+     -operator<<()
+     -operator>>()
+     -- non-friend --
+     + IVect& operator+()
+     + IVect& operator-()
+}
+
+abstract class IVect<typename TYPE> {
       -- public --
-      +{abstract} siz()
-      +{abstract} operator[]
-      +{abstract} operator[] const
-      +{abstract} operator=
+      +{abstract} size_t siz()
+      +{abstract} TYPE& operator[]()
+      +{abstract} const TYPE& operator[]() const
+      +{abstract} IVect& operator=()
       +{abstract} operator*
-      + operator++
-      +{abstract} operator+=
-      +{abstract} operator+
-      + operator--
-      +{abstract} operator-=
-      +{abstract} operator-
+      + IVect& operator++()
+      +{abstract} operator+=()
+      + IVect& operator--
+      +{abstract} operator-=()
 }
 
-class staticVect<typename TYPE, size_t SIZE> {
-
+class StaticVector<typename TYPE, size_t SIZE> {
+      -TYPE _array[SIZE]
+      +explicit StaticVector(const DynamicVector&)
+      +size_t siz() const override
+      +StaticVector& operator+=() override
+      +StaticVector& operator-=() override
+      +const TYPE& operator[]() override
+      +TYPE& operator[]() override
 }
 
-class dynamicVect<typename TYPE> {
-
+class DynamicVector<typename TYPE> {
+      -size_t _size
+      -TYPE* _val;
+      +explicit DynamicVector(size_t)
+      +explicit DynamicVector(const StaticVector&)
+      +DynamicVector(size_t, TYPE&)
+      +DynamicVector(const DynamicVector&)
+      +size_t siz() const override
+      +DynamicVector& operator+=() override
+      +DynamicVector& operator-=() override
+      +const TYPE& operator[]() override
+      +TYPE& operator[]() override
 }
 
-class PolyAbs<typename TYPE> {
-      -- non-member & friend --
-      -operator<<()
-      -operator>>()
+abstract class PolyAbs<typename TYPE> {
       -_degree
-      +getDegree()
-      +operator()()
-      +operator*
+      +int getDegree()
+      +void updateDegree()
+      +TYPE operator()()
+      +PolyAbs operator*
 }
 
 class PolyCon<typename TYPE> {
-
+      +PolyCon(int deg)
 }
 
 class PolyMod<typename TYPE, const PolyCon<TYPE>&, int> {
-      -test
+      +PolyMod& operator*=()
 }
 
-IVect <|-down- staticVect: public
-IVect <|-down- dynamicVect: public virtual
+IVect <|-down- StaticVector: public virtual
+IVect <|-down- DynamicVector: public virtual
 IVect <|-down- PolyAbs: public virtual
+DynamicVector <|-right- PolyAbs
 PolyAbs <|-down- PolyCon
 PolyAbs <|-down- PolyMod
+StaticVector <|-down- PolyMod
 
 
 @enduml
