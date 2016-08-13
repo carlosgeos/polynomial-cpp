@@ -18,8 +18,7 @@ class PolyAbs: public virtual IVect<TYPE>
 public:
     PolyAbs() = default;
     explicit PolyAbs(int deg) : _degree(deg) {}
-    virtual PolyAbs& operator*=(const PolyAbs&) {};
-    //virtual PolyAbs operator*(const PolyAbs&) {};
+    virtual PolyAbs& operator*=(const PolyAbs&) = 0;
 
     int getDeg() const {return _degree;};
     void updateDegree(int deg) {_degree = deg;};
@@ -41,20 +40,20 @@ TYPE PolyAbs<TYPE>::operator()(const TYPE eval) const {
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& out, const PolyAbs<T>& pol) {
+std::ostream& operator<<(std::ostream& out, const PolyAbs<T>& poly) {
 
-    std::cout << "Polynomial: ";
+    std::cout << "Polynomial (degree " << poly.getDeg() << "): ";
 
-    for(int i = pol.getDeg(); i >= 0; --i) {
-	//std::cout << "asking for i: " << i << "\n";
-	if(pol[i] != 0) {
-	    if(i != pol.getDeg() && pol[i] > 0) out << "+"; 	// last number or negative
-	    out << pol[i];
+
+    for(int i = poly.getDeg(); i >= 0; --i) {
+	if(poly[i] != 0) {
+	    if(i != poly.getDeg() && poly[i] > 0) out << "+"; 	// last number or negative
+	    out << poly[i];
 	    if(i > 0) {
 		out << "x";
 		if(i > 1) {
 		    out << "^" << i << " ";
-		}
+		} else out << " ";
 	    }
 	}
     }
@@ -63,10 +62,10 @@ std::ostream& operator<<(std::ostream& out, const PolyAbs<T>& pol) {
 
 
 template <typename T>
-std::istream& operator>>(std::istream& in, PolyAbs<T>& pol){
-    for(int i = pol.getDeg(); i >= 0; --i) {
+std::istream& operator>>(std::istream& in, PolyAbs<T>& poly){
+    for(int i = poly.getDeg(); i >= 0; --i) {
         std::cout << "x^" << i << ": ";
-        in >> pol[i];
+        in >> poly[i];
     }
     return in;
 }

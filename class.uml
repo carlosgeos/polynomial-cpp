@@ -28,9 +28,9 @@ abstract class IVect<typename TYPE> {
       +{abstract} IVect& operator=()
       +{abstract} operator*
       + IVect& operator++()
-      +{abstract} operator+=()
-      + IVect& operator--
-      +{abstract} operator-=()
+      +{abstract} IVect& operator+=()
+      + IVect& operator--()
+      +{abstract} IVect& operator-=()
 }
 
 class StaticVector<typename TYPE, size_t SIZE> {
@@ -62,15 +62,16 @@ abstract class PolyAbs<typename TYPE> {
       +int getDegree()
       +void updateDegree()
       +TYPE operator()()
-      +PolyAbs operator*
+      +PolyAbs& operator*=() = 0
 }
 
 class PolyCon<typename TYPE> {
       +PolyCon(int deg)
+      +PolyCon& operator*=() override
 }
 
 class PolyMod<typename TYPE, const PolyCon<TYPE>&, int> {
-      +PolyMod& operator*=()
+      +PolyMod& operator*=() override
 }
 
 IVect <|-down- StaticVector: public virtual
