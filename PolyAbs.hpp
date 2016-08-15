@@ -14,7 +14,6 @@ class PolyAbs: public virtual IVect<TYPE>
 
     int _degree;
 
-    //inline void adjustDegree();
 public:
     PolyAbs() = default;
     explicit PolyAbs(int deg) : _degree(deg) {}
@@ -43,7 +42,6 @@ template <typename T>
 std::ostream& operator<<(std::ostream& out, const PolyAbs<T>& poly) {
 
     std::cout << "Polynomial (degree " << poly.getDeg() << "): ";
-
 
     for(int i = poly.getDeg(); i >= 0; --i) {
 	if(poly[i] != 0) {

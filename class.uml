@@ -23,36 +23,33 @@ enum Non-memberMethods/Operators {
 abstract class IVect<typename TYPE> {
       -- public --
       +{abstract} size_t siz()
-      +{abstract} TYPE& operator[]()
-      +{abstract} const TYPE& operator[]() const
+      +{abstract} TYPE& operator[]() = 0
+      +{abstract} const TYPE& operator[]() const = 0
       +{abstract} IVect& operator=()
-      +{abstract} operator*
       + IVect& operator++()
-      +{abstract} IVect& operator+=()
+      + IVect& operator+=()
       + IVect& operator--()
-      +{abstract} IVect& operator-=()
+      + IVect& operator-=()
+      + IVect& operator*=(TYPE)
+      + TYPE operator*(IVect)
 }
 
 class StaticVector<typename TYPE, size_t SIZE> {
       -TYPE _array[SIZE]
       +explicit StaticVector(const DynamicVector&)
       +size_t siz() const override
-      +StaticVector& operator+=() override
-      +StaticVector& operator-=() override
       +const TYPE& operator[]() override
       +TYPE& operator[]() override
 }
 
 class DynamicVector<typename TYPE> {
       -size_t _size
-      -TYPE* _val;
+      -TYPE* _val
       +explicit DynamicVector(size_t)
       +explicit DynamicVector(const StaticVector&)
       +DynamicVector(size_t, TYPE&)
       +DynamicVector(const DynamicVector&)
       +size_t siz() const override
-      +DynamicVector& operator+=() override
-      +DynamicVector& operator-=() override
       +const TYPE& operator[]() override
       +TYPE& operator[]() override
 }

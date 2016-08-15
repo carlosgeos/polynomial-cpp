@@ -23,15 +23,12 @@ public:
 
     inline size_t siz() const override {return _size;}
 
-    virtual DynamicVector& operator+=(const IVect<TYPE>&) override;
-
-    virtual DynamicVector& operator-=(const IVect<TYPE>&) override;
-
     inline const TYPE& operator[] (std::ptrdiff_t) const override;
     inline TYPE& operator[] (std::ptrdiff_t) override;
-    std::size_t getSize () const {return _size;}
     DynamicVector& operator= (const DynamicVector&);              // opérateur d'assignation
     DynamicVector& operator=(DynamicVector&&);                   // opérateur de transfert
+    DynamicVector operator+(const DynamicVector&);
+    DynamicVector operator-(const DynamicVector&);
 };
 
 template<typename TYPE>
@@ -40,35 +37,6 @@ DynamicVector<TYPE>::DynamicVector(const StaticVector<TYPE, S>& sv) : _size(S), 
 {
     for (std::size_t i = 0; i < S; ++i) _val[i] = sv[i];
 }
-
-template<typename TYPE>
-DynamicVector<TYPE>& DynamicVector<TYPE>::operator+=(const IVect<TYPE> &other)
-{
-    for (size_t i = 0; i < _size; ++i) _val[i] += other[i];
-    return *this;
-}
-
-template<typename TYPE>
-DynamicVector<TYPE> operator+(DynamicVector<TYPE>& v1, DynamicVector<TYPE>& v2)
-{
-    v1 += v2;
-    return v1;
-}
-
-template<typename TYPE>
-DynamicVector<TYPE>& DynamicVector<TYPE>::operator-=(const IVect<TYPE> &other)
-{
-    for (size_t i = 0; i < _size; ++i) _val[i] -= other[i];
-    return *this;
-}
-
-
-// template<typename TYPE>
-// DynamicVector<TYPE> DynamicVector<TYPE>::operator-()
-// {
-//     return *this;
-// }
-
 
 template <typename TYPE>
 const TYPE& DynamicVector<TYPE>::operator[] (std::ptrdiff_t i) const {
@@ -120,15 +88,20 @@ DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (DynamicVector&& v)
     return *this;
 }
 
-// template <typename TYPE>
-// DynamicVector<TYPE>& DynamicVector<TYPE>::operator= (const IVect<TYPE>& v) {
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator+(const DynamicVector<TYPE>& other)
+{
+    DynamicVector result = *this;
+    result += other;
+    return result;
+}
 
-//     if (this != &v) {
-// 	delete[] _val; _size = v._size; _val = new TYPE[v._size];
-// 	for (std::size_t i = 0; i < v._size; ++i) _val[i] = v._val[i];
-//     }
-//     return *this;
-// }
-
+template<typename TYPE>
+DynamicVector<TYPE> DynamicVector<TYPE>::operator-(const DynamicVector<TYPE>& other)
+{
+    DynamicVector result = *this;
+    result -= other;
+    return result;
+}
 
 #endif /* DYNAMICVECT_H */
